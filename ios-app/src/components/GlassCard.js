@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Platform } from 'react-native';
-import { BlurView } from 'expo-blur';
+import { StyleSheet, View } from 'react-native';
 import { colors, borderRadius, shadows } from '../theme';
 
 const GlassCard = ({
@@ -11,37 +10,10 @@ const GlassCard = ({
   showBorder = true,
   noPadding = false,
 }) => {
-  if (Platform.OS === 'ios') {
-    return (
-      <View style={[styles.container, { borderRadius: borderRadiusSize }, style]}>
-        <BlurView
-          intensity={intensity}
-          tint="dark"
-          style={[
-            styles.blur,
-            { borderRadius: borderRadiusSize },
-          ]}
-        >
-          <View
-            style={[
-              styles.overlay,
-              showBorder && styles.border,
-              { borderRadius: borderRadiusSize },
-              !noPadding && styles.padding,
-            ]}
-          >
-            {children}
-          </View>
-        </BlurView>
-      </View>
-    );
-  }
-
-  // Android fallback
   return (
     <View
       style={[
-        styles.androidCard,
+        styles.card,
         showBorder && styles.border,
         { borderRadius: borderRadiusSize },
         !noPadding && styles.padding,
@@ -54,15 +26,10 @@ const GlassCard = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
+  card: {
+    backgroundColor: 'rgba(255,255,255,0.06)',
     overflow: 'hidden',
     ...shadows.medium,
-  },
-  blur: {
-    overflow: 'hidden',
-  },
-  overlay: {
-    backgroundColor: 'rgba(255,255,255,0.05)',
   },
   border: {
     borderWidth: 1,
@@ -70,10 +37,6 @@ const styles = StyleSheet.create({
   },
   padding: {
     padding: 16,
-  },
-  androidCard: {
-    backgroundColor: colors.surfaceElevated,
-    ...shadows.medium,
   },
 });
 

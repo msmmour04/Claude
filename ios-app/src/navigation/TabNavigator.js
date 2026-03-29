@@ -4,11 +4,9 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Platform,
 } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Path, Circle, Rect, Polyline } from 'react-native-svg';
 
@@ -94,8 +92,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
   return (
     <View style={[styles.tabBarWrapper, { paddingBottom: bottomPad }]}>
       <View style={styles.tabBarContainer}>
-        {Platform.OS === 'ios' ? (
-          <BlurView intensity={40} tint="dark" style={styles.blurView}>
+        <View style={[styles.blurView, { backgroundColor: 'rgba(10,10,20,0.92)' }]}>
             <View style={styles.tabBarInner}>
               {state.routes.map((route, index) => {
                 const isFocused = state.index === index;
@@ -144,44 +141,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                 );
               })}
             </View>
-          </BlurView>
-        ) : (
-          <View style={[styles.tabBarInner, styles.androidTabBar]}>
-            {state.routes.map((route, index) => {
-              const isFocused = state.index === index;
-              const { Icon, label } = TABS[index];
-              const onPress = () => {
-                const event = navigation.emit({
-                  type: 'tabPress',
-                  target: route.key,
-                  canPreventDefault: true,
-                });
-                if (!isFocused && !event.defaultPrevented) {
-                  navigation.navigate(route.name);
-                }
-              };
-              return (
-                <TouchableOpacity
-                  key={route.key}
-                  onPress={onPress}
-                  activeOpacity={0.7}
-                  style={styles.tabItem}
-                >
-                  <Icon
-                    color={isFocused ? colors.accentBlue : 'rgba(255,255,255,0.35)'}
-                    size={22}
-                  />
-                  <Text style={[
-                    styles.tabLabel,
-                    { color: isFocused ? colors.accentBlue : 'rgba(255,255,255,0.35)' },
-                  ]}>
-                    {label}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
           </View>
-        )}
       </View>
     </View>
   );
@@ -208,7 +168,6 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
   },
   blurView: {
-    overflow: 'hidden',
     borderRadius: 28,
   },
   tabBarInner: {

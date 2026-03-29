@@ -11,11 +11,9 @@ import {
   Animated,
   Dimensions,
   ScrollView,
-  Platform,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { BlurView } from 'expo-blur';
 import Svg, { Path, Defs, LinearGradient as SvgGradient, Stop } from 'react-native-svg';
 
 import AssetRow from '../components/AssetRow';
@@ -201,22 +199,7 @@ const AssetDetailModal = ({ asset, visible, onClose }) => {
         styles.modalSheet,
         { transform: [{ translateY: slideAnim }], paddingBottom: insets.bottom + 16 },
       ]}>
-        {Platform.OS === 'ios' ? (
-          <BlurView intensity={40} tint="dark" style={styles.modalBlur}>
-            <ModalContent
-              asset={asset}
-              assetColor={assetColor}
-              isPositive={isPositive}
-              changeColor={changeColor}
-              chartData={chartData}
-              activeRange={activeRange}
-              setActiveRange={setActiveRange}
-              formatMktCap={formatMktCap}
-              onClose={onClose}
-            />
-          </BlurView>
-        ) : (
-          <View style={[styles.modalBlur, { backgroundColor: '#111111' }]}>
+        <View style={[styles.modalBlur, { backgroundColor: 'rgba(8,8,18,0.97)' }]}>
             <ModalContent
               asset={asset}
               assetColor={assetColor}
@@ -229,7 +212,6 @@ const AssetDetailModal = ({ asset, visible, onClose }) => {
               onClose={onClose}
             />
           </View>
-        )}
       </Animated.View>
     </Modal>
   );

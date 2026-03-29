@@ -11,11 +11,9 @@ import {
   Animated,
   RefreshControl,
   Dimensions,
-  Platform,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { BlurView } from 'expo-blur';
 import Svg, { Path } from 'react-native-svg';
 import GlassCard from '../components/GlassCard';
 import { colors, spacing, borderRadius, shadows } from '../theme';
@@ -110,20 +108,7 @@ const KrakenApiModal = ({ visible, onClose }) => {
         styles.modalSheet,
         { transform: [{ translateY: slideAnim }], paddingBottom: insets.bottom + 16 },
       ]}>
-        {Platform.OS === 'ios' ? (
-          <BlurView intensity={40} tint="dark" style={{ overflow: 'hidden', borderTopLeftRadius: 28, borderTopRightRadius: 28 }}>
-            <KrakenModalContent
-              apiKey={apiKey}
-              setApiKey={setApiKey}
-              privateKey={privateKey}
-              setPrivateKey={setPrivateKey}
-              loading={loading}
-              onSave={handleSave}
-              onClose={onClose}
-            />
-          </BlurView>
-        ) : (
-          <View style={{ backgroundColor: '#111111', borderTopLeftRadius: 28, borderTopRightRadius: 28 }}>
+        <View style={{ backgroundColor: 'rgba(10,10,20,0.92)', borderTopLeftRadius: 28, borderTopRightRadius: 28 }}>
             <KrakenModalContent
               apiKey={apiKey}
               setApiKey={setApiKey}
@@ -134,7 +119,6 @@ const KrakenApiModal = ({ visible, onClose }) => {
               onClose={onClose}
             />
           </View>
-        )}
       </Animated.View>
     </Modal>
   );
